@@ -56,8 +56,17 @@ class Authentication
     public function logout()
     {
         if (isset($_SESSION['userid'])) {
+            // Update is_logged_in to 0 for the logged-out user
+            $updateStmt = $this->conn->prepare("UPDATE users_table SET is_logged_in = 0 WHERE userid = ?");
+            $updateStmt->bind_param("i", $_SESSION['userid']);
+            $updateStmt->execute();
+
+            // Unset all session variables
             session_unset();
+
+            // Destroy the session
             session_destroy();
+
             return array("message" => "Logout successful");
         } else {
             return array("message" => "Already logged out");

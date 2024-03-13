@@ -46,6 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode(array("message" => "Only ADMIN can create users"));
                 }
                 break;
+            case 'logout':
+                // Handle logout endpoint
+                $result = $auth->logout();
+                echo json_encode($result);
+                break;
             // Add more cases for other endpoints as needed
             default:
                 echo json_encode(array("message" => "Invalid endpoint"));
